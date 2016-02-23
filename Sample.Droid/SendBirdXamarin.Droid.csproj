@@ -16,6 +16,8 @@
     <AssemblyName>Sample.Droid</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+    <ReleaseVersion>1.0.0</ReleaseVersion>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,7 +30,6 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -39,7 +40,6 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -55,6 +55,9 @@
     </Reference>
     <Reference Include="Xamarin.Android.Support.v13">
       <HintPath>..\..\SDK-dotNET\packages\Crosslight.Xamarin.Android.Support.v13.23.1.1\lib\MonoAndroid10\Xamarin.Android.Support.v13.dll</HintPath>
+    </Reference>
+    <Reference Include="SendBird.Droid">
+      <HintPath>..\Libraries\SendBird.Droid.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -146,10 +149,4 @@
     <Folder Include="Resources\layout\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\..\SDK-dotNET\SendBird.Droid\SendBird.Droid.csproj">
-      <Project>{83833F38-5AF5-4355-A298-01A3EC4FC753}</Project>
-      <Name>SendBird.Droid</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

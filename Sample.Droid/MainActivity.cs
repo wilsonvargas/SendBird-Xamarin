@@ -30,14 +30,11 @@ namespace SendBirdSample.Droid
 
 		private const int REQUEST_SENDBIRD_MEMBER_LIST_ACTIVITY = 300;
 
-		string appId = "A7A2672C-AD11-11E4-8DAA-0A18B21C2D82"; // Release
-//		string appId = "26DA02A0-6D09-4523-86A0-3EE995090C8F"; // Debug
+		string appId = "A7A2672C-AD11-11E4-8DAA-0A18B21C2D82";
 
 		private static string userId = GenerateDeviceUUID ();
 
-//		private static string userName = "user-" + userId.Substring(0, 5);
-		private static string userName = "sbgalaxy";
-
+		private static string userName = "User-" + userId.Substring(0, 5);
 
 		string channelUrl = "jia_test.lobby";
 

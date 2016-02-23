@@ -197,8 +197,6 @@ namespace SendBirdSample.Droid
 
 			#endregion
 
-			Console.WriteLine (appId);
-
 			SendBirdSDK.Init (appId);
 			SendBirdSDK.Login (uuid, userName);
 			SendBirdSDK.SetEventHandler (seh);
