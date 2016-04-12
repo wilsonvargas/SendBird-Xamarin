@@ -150,7 +150,10 @@ namespace SendBirdSample.Droid
 			SendBirdEventHandler seh = new SendBirdEventHandler ();
 			seh.OnConnect += (sender, e) => {
 				Channel channel = e.Channel;
-				mTxtChannelUrl.Text = "#" + mChannelUrl;
+				mSyncContext.Post (delegate {
+					mTxtChannelUrl.Text = "#" + mChannelUrl;
+					mSendBirdChatAdapter.NotifyDataSetChanged ();
+				}, null);
 			};
 			seh.OnError += (sender, e) => {
 			};
@@ -188,10 +191,14 @@ namespace SendBirdSample.Droid
 			};
 			seh.OnMessageDelivery += (sender, e) => {
 				if(!e.Sent) {
-					mSendBirdChatFragment.mEtxtMessage.Text = e.Message;
+					mSyncContext.Post (delegate {
+						mSendBirdChatFragment.mEtxtMessage.Text = e.Message;
+					}, null);
 				}
 			};
 			seh.OnMessagingEnded += (sender, e) => {
+			};
+			seh.OnSystemEventReceived += (sender, e) => {
 			};
 
 

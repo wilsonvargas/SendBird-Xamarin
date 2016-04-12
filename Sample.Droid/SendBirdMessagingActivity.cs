@@ -187,18 +187,8 @@ namespace SendBirdSample.Droid
 			String userName = extras.GetString ("userName");
 
 			mSyncContext = SynchronizationContext.Current; // required for api queries
-			#region SendBirdEventHandler
 
-			SendBirdNotificationHandler inh = new SendBirdNotificationHandler();
-			inh.OnMessagingChannelUpdated += (sender, e) => {
-				if(mMessagingChannel != null && mMessagingChannel.GetId() == e.MessagingChannel.GetId()) {
-					mSyncContext.Post (delegate {
-						UpdateMessagingChannel(e.MessagingChannel);
-					}, null);
-				}
-			};
-			inh.OnMentionUpdated += (sender, e) => {
-			};
+			#region SendBirdEventHandler
 
 			SendBirdEventHandler seh = new SendBirdEventHandler ();
 			seh.OnConnect += (sender, e) => {
@@ -220,19 +210,21 @@ namespace SendBirdSample.Droid
 			};
 			seh.OnSystemMessageReceived += (sender, e) => {
 				var systemMessage = (SystemMessage)e.Message;
-				switch(systemMessage.category) {
-				case SystemMessage.CATEGORY_TOO_MANY_MESSAGES:
-					systemMessage.SetMessage("Too many messages. Please try later.");
-					break;
-				case SystemMessage.CATEGORY_MESSAGING_USER_BLOCKED:
-					systemMessage.SetMessage("Blocked.");
-					break;
-				case SystemMessage.CATEGORY_MESSAGING_USER_DEACTIVATED:
-					systemMessage.SetMessage("Deactivated.");
-					break;
-				} 
+				mSyncContext.Post (delegate {
+					switch(systemMessage.category) {
+					case SystemMessage.CATEGORY_TOO_MANY_MESSAGES:
+						systemMessage.SetMessage("Too many messages. Please try later.");
+						break;
+					case SystemMessage.CATEGORY_MESSAGING_USER_BLOCKED:
+						systemMessage.SetMessage("Blocked.");
+						break;
+					case SystemMessage.CATEGORY_MESSAGING_USER_DEACTIVATED:
+						systemMessage.SetMessage("Deactivated.");
+						break;
+					} 
 
-				mSendBirdMessagingAdapter.AddMessageModel(systemMessage);
+					mSendBirdMessagingAdapter.AddMessageModel(systemMessage);
+				}, null);
 			};
 			seh.OnFileReceived += (sender, e) => {
 			};
@@ -259,44 +251,56 @@ namespace SendBirdSample.Droid
 			};
 			seh.OnMessageDelivery += (sender, e) => {
 				if(!e.Sent) {
-					mSendBirdMessagingFragment.mEtxtMessage.Text = e.Message;
+					mSyncContext.Post (delegate {
+						mSendBirdMessagingFragment.mEtxtMessage.Text = e.Message;
+					}, null);
 				}
 			};
 			seh.OnMessagingStarted += (sender, e) => {
 				mSendBirdMessagingAdapter.Clear ();
-				UpdateMessagingChannel(e.MessagingChannel);
+				mSyncContext.Post (delegate {
+					UpdateMessagingChannel(e.MessagingChannel);
 
-				var channelUrl = e.MessagingChannel.GetUrl();
+					var channelUrl = e.MessagingChannel.GetUrl();
 
-				MessageListQuery messageListQuery = SendBirdSDK.QueryMessageList(channelUrl);
-				messageListQuery.OnResult += (sender_child, e_child) => {
-					// mSyncContext.Post for RunOnUIThread
-					mSyncContext.Post (delegate {
-						foreach (var messageModel in e_child.Messages) {
-							mSendBirdMessagingAdapter.AddMessageModel (messageModel);
-						}
+					MessageListQuery messageListQuery = SendBirdSDK.QueryMessageList(channelUrl);
+					messageListQuery.OnResult += (sender_child, e_child) => {
+						// mSyncContext.Post for RunOnUIThread
+						mSyncContext.Post (delegate {
+							foreach (var messageModel in e_child.Messages) {
+								mSendBirdMessagingAdapter.AddMessageModel (messageModel);
+							}
 
-						mSendBirdMessagingAdapter.NotifyDataSetChanged ();
-						mSendBirdMessagingFragment.mListView.SetSelection (30);
+							mSendBirdMessagingAdapter.NotifyDataSetChanged ();
+							mSendBirdMessagingFragment.mListView.SetSelection (30);
 
-						SendBirdSDK.MarkAsRead(channelUrl);
-						SendBirdSDK.Join (channelUrl);
-						SendBirdSDK.Connect (mSendBirdMessagingAdapter.GetMaxMessageTimestamp());
-					}, null);
-				};
-				messageListQuery.Prev (long.MaxValue, 50); // Excute Query
+							SendBirdSDK.MarkAsRead(channelUrl);
+							SendBirdSDK.Join (channelUrl);
+							SendBirdSDK.Connect (mSendBirdMessagingAdapter.GetMaxMessageTimestamp());
+						}, null);
+					};
+					messageListQuery.Prev (long.MaxValue, 50); // Excute Query
+				}, null);
 			};
 			seh.OnMessagingUpdated += (sender, e) => {
 				mSyncContext.Post (delegate {
 					UpdateMessagingChannel(e.MessagingChannel);
 				}, null);
 			};
+			seh.OnMessagingChannelUpdated += (sender, e) => {
+				if(mMessagingChannel != null && mMessagingChannel.GetId() == e.MessagingChannel.GetId()) {
+					mSyncContext.Post (delegate {
+						UpdateMessagingChannel(e.MessagingChannel);
+					}, null);
+				}
+			};
+			seh.OnMentionUpdated += (sender, e) => {
+			};
 
 			#endregion
 
 			SendBirdSDK.Init (appId);
 			SendBirdSDK.Login (uuid, userName);
-			SendBirdSDK.RegisterNotificationHandler (inh);
 			SendBirdSDK.SetEventHandler (seh);
 		}
 

@@ -43,7 +43,7 @@ namespace SendBirdSample.Droid
 
 			this.Window.SetSoftInputMode (SoftInput.StateAlwaysHidden);
 
-			InitFragment (savedInstanceState, this.Intent.Extras.GetString("channelUrl"));
+			InitFragment (savedInstanceState);
 			InitUIComponents ();
 			InitSendBird(this.Intent.Extras);
 		}
@@ -78,9 +78,10 @@ namespace SendBirdSample.Droid
 			return args;
 		}
 
-		private void InitFragment(Bundle savedInstanceState, string channelUrl) 
+		private void InitFragment(Bundle savedInstanceState) 
 		{
-			mSendBirdMemberListFragment = new SendBirdMemberListFragment(channelUrl);
+			Console.WriteLine ("InitFragment");
+			mSendBirdMemberListFragment = new SendBirdMemberListFragment();
 			mSendBirdMemberListFragment.OnMemberSelected += (sender, e) => {
 				mSelectedMembers = e.Members as List<Member>;
 				if(mSelectedMembers.Count <= 0) {
@@ -96,6 +97,7 @@ namespace SendBirdSample.Droid
 
 		private void InitUIComponents() 
 		{
+			Console.WriteLine ("Init UI Components");
 			mTopBarContainer = FindViewById(Resource.Id.top_bar_container) as View;
 			mTxtChannelUrl = FindViewById (Resource.Id.txt_channel_url) as TextView;
 
@@ -164,26 +166,27 @@ namespace SendBirdSample.Droid
 
 			public SendBirdMemberListFragment() 
 			{
-			}
-
-			public SendBirdMemberListFragment(string channelUrl)
-			{
-				mChannelUrl = channelUrl;
+				mChannelUrl = "jia_test.lobby";
 			}
 
 			public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 			{
+				Console.WriteLine ("Member List Fragment Create");
 				View rootView = inflater.Inflate(Resource.Layout.SendBirdFragmentMemberList, container, false);
 				InitUIComponents(rootView);
 
 				mMemberListQuery = SendBirdSDK.QueryMemberList (mChannelUrl);
 				mMemberListQuery.OnResult += (sender, e) =>  {
+					Console.WriteLine(e.Members);
 					mAdapter.AddAll(e.Members);
 					if(e.Members.Count <= 0) {
 						Toast.MakeText(this.Activity, "No members.", ToastLength.Short).Show();
 					}
 				};
-				mMemberListQuery.Next (); // actually query to get member list via API Client
+				mMemberListQuery.OnError += (sender, e) =>  {
+					Console.WriteLine(e.Exception.Message);
+				};
+				mMemberListQuery.Get ();
 
 				return rootView;
 			}

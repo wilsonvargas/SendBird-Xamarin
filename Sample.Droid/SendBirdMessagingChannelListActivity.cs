@@ -122,26 +122,23 @@ namespace SendBirdSample.Droid
 
 				mSyncContext = SynchronizationContext.Current; // required for ui update
 
-				SendBirdNotificationHandler jnh = new SendBirdNotificationHandler();
-				jnh.OnMessagingChannelUpdated += (sender, e) => {
+				SendBirdEventHandler seh = new SendBirdEventHandler ();
+				seh.OnConnect += (sender, e) => {
+				};
+				seh.OnError += (sender, e) => {
+				};
+				seh.OnMessagingEnded += (sender, e) => {
+				};
+				seh.OnMessagingChannelUpdated += (sender, e) => {
 					mSendBirdMessagingChannelAdapter.Replace(e.MessagingChannel);
 				};
-				jnh.OnMentionUpdated += (sender, e) => {
+				seh.OnMentionUpdated += (sender, e) => {
 
-				};
-
-				SendBirdEventHandler ieh = new SendBirdEventHandler ();
-				ieh.OnConnect += (sender, e) => {
-				};
-				ieh.OnError += (sender, e) => {
-				};
-				ieh.OnMessagingEnded += (sender, e) => {
 				};
 
 				SendBirdSDK.Init (appId);
 				SendBirdSDK.Login (uuid, userName);
-				SendBirdSDK.RegisterNotificationHandler (jnh);
-				SendBirdSDK.SetEventHandler (ieh);
+				SendBirdSDK.SetEventHandler (seh);
 			}
 		}
 
