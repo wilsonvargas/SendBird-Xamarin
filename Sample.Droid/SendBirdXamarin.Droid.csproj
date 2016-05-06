@@ -47,14 +47,17 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="System.Web.Services" />
-    <Reference Include="websocket-sharp">
-      <HintPath>..\Libraries\websocket-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\..\SDK-dotNET\packages\Crosslight.Xamarin.Android.Support.v4.23.1.1\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Android.Support.v13">
       <HintPath>..\..\SDK-dotNET\packages\Crosslight.Xamarin.Android.Support.v13.23.1.1\lib\MonoAndroid10\Xamarin.Android.Support.v13.dll</HintPath>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>..\Libraries\websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SendBird.Droid">
+      <HintPath>..\Libraries\SendBird.Droid.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -146,10 +149,4 @@
     <Folder Include="Resources\layout\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\..\SDK-dotNET\SendBird.Droid\SendBird.Droid.csproj">
-      <Project>{83833F38-5AF5-4355-A298-01A3EC4FC753}</Project>
-      <Name>SendBird.Droid</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

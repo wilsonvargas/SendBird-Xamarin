@@ -30,13 +30,15 @@ namespace SendBirdSample.Droid
 
 		private const int REQUEST_SENDBIRD_MEMBER_LIST_ACTIVITY = 300;
 
-		string appId = "A7A2672C-AD11-11E4-8DAA-0A18B21C2D82";
+//		string appId = "A7A2672C-AD11-11E4-8DAA-0A18B21C2D82";
+		string appId = "FDB36958-13DA-4B91-B708-1CA751BF5CF2";
 
 		private static string userId = GenerateDeviceUUID ();
 
 		private static string userName = "User-" + userId.Substring(0, 5);
 
-		string channelUrl = "jia_test.lobby";
+//		string channelUrl = "jia_test.lobby";
+		string channelUrl = "988d8.test1";
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
