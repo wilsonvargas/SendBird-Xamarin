@@ -231,6 +231,8 @@ namespace SendBirdSample.Droid
 							mSendBirdChatAdapter.NotifyDataSetChanged ();
 							mSendBirdChatFragment.mListView.SetSelection (mSendBirdChatAdapter.Count);
 
+							Console.WriteLine("Call GuestLogin");
+
 							SendBirdSDK.Join (mChannelUrl);
 							SendBirdSDK.Connect (mSendBirdChatAdapter.GetMaxMessageTimestamp());
 						}, null);
