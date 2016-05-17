@@ -18,12 +18,14 @@ using SendBird.Query;
 
 using Sample.Droid;
 using System.IO;
+using System.Threading;
 
 namespace SendBirdSample.Droid
 {
 	[Android.App.Activity (Theme = "@android:style/Theme.DeviceDefault.Light.NoActionBar", Label = "ChannelList")]
 	public class SendBirdChannelListActivity : FragmentActivity
 	{
+		private static SynchronizationContext mSyncContext;
 		private static ImageUtils.MemoryLimitedLruCache mMemoryCache;
 
 		private SendBirdChannelListFragment mSendBirdChannelListFragment;
@@ -119,6 +121,8 @@ namespace SendBirdSample.Droid
 
 		private void InitSendBird(Bundle extras)
 		{
+			mSyncContext = SynchronizationContext.Current;
+
 			String appId = extras.GetString("appId");
 			String uuid = extras.GetString("uuid");
 			String userName = extras.GetString("userName");
@@ -251,14 +255,18 @@ namespace SendBirdSample.Droid
 			{
 				mCurrentAdapter = mAdapter;
 				mListView.Adapter = mCurrentAdapter;
-				mCurrentAdapter.NotifyDataSetChanged ();
+				mSyncContext.Post (delegate {
+					mCurrentAdapter.NotifyDataSetChanged ();
+				}, null);
 			}
 
 			private void ShowSearchList()
 			{
 				mCurrentAdapter = mSearchAdapter;
 				mListView.Adapter = mCurrentAdapter;
-				mCurrentAdapter.NotifyDataSetChanged();
+				mSyncContext.Post (delegate {
+					mCurrentAdapter.NotifyDataSetChanged();
+				}, null);
 			}
 				
 			private void Search(string keyword)
@@ -317,13 +325,17 @@ namespace SendBirdSample.Droid
 				public void Add(Channel channel)
 				{
 					mItemList.Add(channel);
-					NotifyDataSetChanged ();
+					mSyncContext.Post (delegate {
+						NotifyDataSetChanged ();
+					}, null);
 				}
 
 				public void AddAll(List<Channel> channels)
 				{
 					mItemList.AddRange(channels);
-					NotifyDataSetChanged ();
+					mSyncContext.Post (delegate {
+						NotifyDataSetChanged ();
+					}, null);
 				}
 
 				public void Clear()

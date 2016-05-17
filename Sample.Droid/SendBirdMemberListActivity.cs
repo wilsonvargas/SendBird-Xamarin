@@ -17,12 +17,14 @@ using SendBird.Model;
 using SendBird.Query;
 
 using Sample.Droid;
+using System.Threading;
 
 namespace SendBirdSample.Droid
 {
 	[Android.App.Activity (Theme = "@android:style/Theme.DeviceDefault.Light.NoActionBar", Label = "MemberList")]
 	public class SendBirdMemberListActivity : FragmentActivity
 	{
+		private static SynchronizationContext mSyncContext;
 		private static ImageUtils.MemoryLimitedLruCache mMemoryCache;
 
 		private SendBirdMemberListFragment mSendBirdMemberListFragment;
@@ -80,7 +82,6 @@ namespace SendBirdSample.Droid
 
 		private void InitFragment(Bundle savedInstanceState) 
 		{
-			Console.WriteLine ("InitFragment");
 			mSendBirdMemberListFragment = new SendBirdMemberListFragment();
 			mSendBirdMemberListFragment.OnMemberSelected += (sender, e) => {
 				mSelectedMembers = e.Members as List<Member>;
@@ -97,7 +98,6 @@ namespace SendBirdSample.Droid
 
 		private void InitUIComponents() 
 		{
-			Console.WriteLine ("Init UI Components");
 			mTopBarContainer = FindViewById(Resource.Id.top_bar_container) as View;
 			mTxtChannelUrl = FindViewById (Resource.Id.txt_channel_url) as TextView;
 
@@ -151,6 +151,8 @@ namespace SendBirdSample.Droid
 				SendBirdSDK.Init(appId);
 				SendBirdSDK.Login(uuid, userName);
 			}
+
+			mSyncContext = SynchronizationContext.Current; // required for ui update
 		}
 
 		public class SendBirdMemberListFragment : Fragment 
@@ -171,17 +173,17 @@ namespace SendBirdSample.Droid
 
 			public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 			{
-				Console.WriteLine ("Member List Fragment Create");
 				View rootView = inflater.Inflate(Resource.Layout.SendBirdFragmentMemberList, container, false);
 				InitUIComponents(rootView);
 
 				mMemberListQuery = SendBirdSDK.QueryMemberList (mChannelUrl);
 				mMemberListQuery.OnResult += (sender, e) =>  {
-					Console.WriteLine(e.Members);
-					mAdapter.AddAll(e.Members);
-					if(e.Members.Count <= 0) {
-						Toast.MakeText(this.Activity, "No members.", ToastLength.Short).Show();
-					}
+					mSyncContext.Post (delegate {
+						mAdapter.AddAll(e.Members);
+						if(e.Members.Count <= 0) {
+							Toast.MakeText(this.Activity, "No members.", ToastLength.Short).Show();
+						}
+					}, null);
 				};
 				mMemberListQuery.OnError += (sender, e) =>  {
 					Console.WriteLine(e.Exception.Message);
@@ -250,7 +252,9 @@ namespace SendBirdSample.Droid
 				public void AddAll(List<Member> members)
 				{
 					mItemList.AddRange(members);
-					NotifyDataSetChanged ();
+					mSyncContext.Post (delegate {
+						NotifyDataSetChanged ();
+					}, null);
 				}
 				public void Clear()
 				{
