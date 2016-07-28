@@ -111,7 +111,6 @@ namespace SendBirdSample.Droid
 				if(mSelectedMembers.Count > 0) {
 					string[] memberIds = new string[mSelectedMembers.Count];
 					for(var i = 0; i < memberIds.Length; i++) {
-						Console.WriteLine(mSelectedMembers[i].GetId());
 						memberIds[i] = mSelectedMembers[i].GetId();
 					}
 					Intent data = new Intent();

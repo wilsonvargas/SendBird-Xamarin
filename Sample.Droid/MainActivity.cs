@@ -36,7 +36,7 @@ namespace SendBirdSample.Droid
 
 		private static string userName = "User-" + userId.Substring(0, 5);
 
-		string channelUrl = "jia_test.lobby";
+		string channelUrl = "lobby";
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
