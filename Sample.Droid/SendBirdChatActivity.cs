@@ -190,8 +190,6 @@ namespace SendBirdSample.Droid
 				}, null);
 			};
 			seh.OnMessageDelivery += (sender, e) => {
-				Console.WriteLine("onMessageDelivery");
-				Console.WriteLine(e.Sent);
 				if(!e.Sent) {
 					mSyncContext.Post (delegate {
 						mSendBirdChatFragment.mEtxtMessage.Text = e.Message;
@@ -253,8 +251,6 @@ namespace SendBirdSample.Droid
 			InitFragment (savedInstanceState);
 			InitUIComponents ();
 			InitSendBird (this.Intent.Extras);
-
-			Console.WriteLine("oncreate");
 
 			mMessageListQuery = SendBirdSDK.QueryMessageList (mChannelUrl);
 			mMessageListQuery.OnResult += (sender, e) => {
@@ -665,8 +661,6 @@ namespace SendBirdSample.Droid
 							viewHolder.GetView<TextView>("txt_image_size").Text = fileLink.fileInfo.size.ToString();
 							if (fileLink.fileInfo.url != null && fileLink.fileInfo.url != "null") {
 								DisplayUrlImage (viewHolder.GetView<ImageView> ("img_thumbnail"), fileLink.fileInfo.url);
-									Console.WriteLine("File Url");
-									Console.WriteLine(fileLink.fileInfo.url);
 							}
 						} else {
 							viewHolder.GetView("image_container").Visibility = ViewStates.Gone;
