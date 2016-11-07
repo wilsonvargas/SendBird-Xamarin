@@ -1,5 +1,9 @@
 # [SendBird](https://sendbird.com) Xamarin Sample UI
 
+This sample UI project is no longer maintained and based on old SendBird SDK.
+
+Please check out our new version of SDK here. [SendBird SDK]("https://github.com/smilefam/SendBird-SDK-dotNET")
+
 ## Introduction
 
 [SendBird](https://sendbird.com) provides the chat API and SDK for your app enabling real-time communication among your users.  
