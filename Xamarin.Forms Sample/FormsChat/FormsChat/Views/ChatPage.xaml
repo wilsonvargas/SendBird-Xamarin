@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:converters="clr-namespace:FormsChat.Converters"
+             xmlns:controls="clr-namespace:ButtonCircle.FormsPlugin.Abstractions;assembly=ButtonCircle.FormsPlugin.Abstractions"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="{Binding Title}"
+             x:Class="FormsChat.Views.ChatPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:TypeToBackgroundConverter x:Key="TypeToBackgroundConverter" />
+            <converters:TypeToColumnConverter x:Key="TypeToColumnConverter" />
+            <converters:TypeToTextColorConverter x:Key="TypeToTextColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid x:Name="LayoutRoot" BackgroundColor="White">
+            <Grid x:Name="ContentPanel" Margin="0,10,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <ListView x:Name="list" SeparatorVisibility="None"
+                Grid.Row="0" HasUnevenRows="True" ItemsSource="{Binding Messages}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ContentView>
+                                    <Grid Grid.RowSpacing="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="5" />
+                                        </Grid.RowDefinitions>
+
+                                        <Frame  Grid.ColumnSpan="2" Padding="5" OutlineColor="#BF8585"
+                           Grid.Column="{Binding Sender, Converter={StaticResource TypeToColumnConverter}}"
+                           BackgroundColor="{Binding Sender, Converter={StaticResource TypeToBackgroundConverter}, ConverterParameter=1}">
+                                            <Label Text="{Binding Message}" TextColor="{Binding Sender, Converter={StaticResource TypeToTextColorConverter}, ConverterParameter=1}" FontSize="Medium" LineBreakMode="WordWrap"
+                                VerticalOptions="Center"  />
+                                        </Frame>
+
+                                    </Grid>
+                                </ContentView>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <StackLayout Orientation="Horizontal" Grid.Row="1" HorizontalOptions="FillAndExpand">
+                    <Entry  Placeholder="Write here" Keyboard="Chat" HorizontalOptions="FillAndExpand" Text="{Binding TxtMessage, Mode=TwoWay}"/>
+                    <controls:CircleButton Icon="ic_send" TextColor="White" FontSize="25" BorderColor="Transparent" HeightRequest="50" WidthRequest="50" BorderRadius="50" HorizontalOptions="End" Command="{Binding SendCommand}" BackgroundColor="#2196F3"/>
+                </StackLayout>
+            </Grid>
+            <ActivityIndicator 
+        IsRunning="{Binding IsBusy, Mode=TwoWay}" Color="Red" Opacity="5"
+        VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

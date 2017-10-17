@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FormsChat"
+             x:Class="FormsChat.Views.MainPage">
+
+    <StackLayout Padding="15" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+        <Image Source="usermale.png" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+        <Entry Placeholder="Enter your Email" 
+           Text="{Binding Email}"
+           VerticalOptions="CenterAndExpand" 
+           HorizontalOptions="FillAndExpand" />
+        <Entry Placeholder="Enter your Nickname" 
+           Text="{Binding Nickname}"
+           VerticalOptions="CenterAndExpand" 
+           HorizontalOptions="FillAndExpand"/>
+
+        <Button Text="Connect" VerticalOptions="Center" 
+           HorizontalOptions="FillAndExpand" Command="{Binding CommandConnect}" />
+        <Label Text="{Binding MessageError}"
+           VerticalOptions="CenterAndExpand" 
+           HorizontalOptions="FillAndExpand"/>
+    </StackLayout>
+
+</ContentPage>

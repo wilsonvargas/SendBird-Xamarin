@@ -26,9 +26,9 @@ All users within the same SendBird application are able to communicate with each
 
 1. Clone FormsChat project from this repository.
 2. Open the project which you want to run.
-3. Add your App ID in [Resource.resx](Xamarin.Forms%20Sample\FormsChat\FormsChat\Resources\Resource.resx) file.
+3. Add your App ID in [Resource.resx](FormsChat\FormsChat\Resources\Resource.resx) file.
 4. Build and run it.
 
 
 # Screenshot
-![android](Screenshots%20Xamarin.Forms\screenshot.png)
+![android](..\Screenshots-Xamarin.Forms\screenshot.png)
