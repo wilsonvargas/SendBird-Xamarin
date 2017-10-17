@@ -1,4 +1,4 @@
-# FormsChat: [SendBird] (https://sendbird.com/) Chats Everywhere
+# FormsChat: [SendBird](https://sendbird.com/) Chats Everywhere
 
 Built with C# 6 features, you must be running VS 2015 or 2017 to compile.
 
@@ -11,7 +11,7 @@ This project uses [SendBird Plugin for Xamarin] (https://www.nuget.org/packages/
 In addition, this sample uses some components created by our community:
 
  - [Xam.Plugin.Settings](https://www.nuget.org/packages/Xam.Plugins.Settings/)
- - [Plugins.Forms.ButtonCircle] (https://www.nuget.org/packages/Plugins.Forms.ButtonCircle/)
+ - [Plugins.Forms.ButtonCircle](https://www.nuget.org/packages/Plugins.Forms.ButtonCircle/)
 
 Please check out our new version of SDK here. [SendBird .NET SDK](https://github.com/smilefam/SendBird-SDK-dotNET)
 
@@ -26,9 +26,9 @@ All users within the same SendBird application are able to communicate with each
 
 1. Clone FormsChat project from this repository.
 2. Open the project which you want to run.
-3. Add your App ID in [Resource.resx](Xamarin.Forms%20Sample\FormsChat\FormsChat\Resources\Resource.resx) file.
+3. Add your App ID in [Resource.resx](https://github.com/wilsonvargas/SendBird-Xamarin/blob/master/Xamarin.Forms%20Sample/FormsChat/FormsChat/Resources/Resource.resx) file.
 4. Build and run it.
 
 
 # Screenshot
-![android](Screenshots%20Xamarin.Forms\screenshot.png)
+![android](https://raw.githubusercontent.com/wilsonvargas/SendBird-Xamarin/master/Screenshots%20Xamarin.Forms/screenshot.png)
