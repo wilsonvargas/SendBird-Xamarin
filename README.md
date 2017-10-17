@@ -6,14 +6,13 @@ The most awesome Chat app built in about 4 hours to showcase a sample of [Xamari
 
 In this sample Chat app we show awesome way to text to another user, including connect users to SendBird services, create a channel 1-1, all using a nice MVVM Style and nearly 100% code reuse.
 
-This project uses [SendBird Plugin for Xamarin] (https://www.nuget.org/packages/Xam.Plugin.SendBird/)
+This project uses [SendBird Plugin for Xamarin](https://www.nuget.org/packages/Xam.Plugin.SendBird/)
 
 In addition, this sample uses some components created by our community:
 
  - [Xam.Plugin.Settings](https://www.nuget.org/packages/Xam.Plugins.Settings/)
  - [Plugins.Forms.ButtonCircle](https://www.nuget.org/packages/Plugins.Forms.ButtonCircle/)
 
-Please check out our new version of SDK here. [SendBird .NET SDK](https://github.com/smilefam/SendBird-SDK-dotNET)
 
 ## Create a new SendBird application in Dashboard
 The first thing you need to do is to log in to the [SendBird Dashboard](https://dashboard.sendbird.com/) and create a SendBird application. If you do not yet have an account, you can log in with Google, GitHub, or create a new account.
