@@ -1,4 +1,4 @@
-# FormsChat: [SendBird] (https://sendbird.com/) Chats Everywhere
+# FormsChat: [SendBird](https://sendbird.com/) Chats Everywhere
 
 Built with C# 6 features, you must be running VS 2015 or 2017 to compile.
 
